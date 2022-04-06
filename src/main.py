@@ -6,23 +6,12 @@ YOLO - You Only Look Once. Is a method to detect objects in an images and we are
 import cv2
 import argparse
 import numpy as np
+import os
 
+CLASSES = "./src/yolo/yolov3.txt"
+CONFIG = "./src/yolo/yolov3.cfg"
+WEIGHTS = "./src/yolo/yolov3.weights"
 
-def get_args():
-    """
-    Get arguments from the command line
-    """
-    ap = argparse.ArgumentParser()
-    ap.add_argument('-i', '--image', required=True,
-                    help = 'path to input image')
-    ap.add_argument('-c', '--config', required=True,
-                    help = 'path to yolo config file')
-    ap.add_argument('-w', '--weights', required=True,
-                    help = 'path to yolo pre-trained weights')
-    ap.add_argument('-cl', '--classes', required=True,
-                    help = 'path to text file containing class names')
-    args = ap.parse_args()
-    return args
 
 # function to get the output layer names 
 # in the architecture
@@ -48,11 +37,15 @@ def draw_bounding_box(img, class_id, confidence, x, y, x_plus_w, y_plus_h, class
 
     cv2.putText(img, label, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-def main():
-    args = get_args()
+def detect_image(image_path: str)->None:
+    """
+    Performs detection on given image
+    Args:
+        image_path: path to image file
+    """
 
     # read input image
-    image = cv2.imread(args.image)
+    image = cv2.imread(image_path)
 
     Width = image.shape[1]
     Height = image.shape[0]
@@ -60,12 +53,12 @@ def main():
 
     # read class names from text file
     classes = None
-    with open(args.classes, 'r') as f:
+    with open(CLASSES, 'r') as f:
         classes = [line.strip() for line in f.readlines()]
 
 
     # read pre-trained model and config file
-    net = cv2.dnn.readNet(args.weights, args.config)
+    net = cv2.dnn.readNet(WEIGHTS, CONFIG)
 
     # create input blob 
     blob = cv2.dnn.blobFromImage(image, scale, (416,416), (0,0,0), True, crop=False)
@@ -124,13 +117,21 @@ def main():
 
     # wait until any key is pressed
     cv2.waitKey()
+
+    # Wait given milliseconds
+    # cv2.waitKey(3000)
         
-     # save output image to disk
-    cv2.imwrite("object-detection.jpg", image)
+    # save output image to disk
+    #cv2.imwrite("object-detection.jpg", image)
 
     # release resources
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    main()
+    root_path = "/home/tony/Pictures/mtb_images/"
+    filenames = os.listdir(root_path)
+    filenames = [root_path+i for i in filenames]
+
+    for filename in filenames:
+        detect_image(filename)
 

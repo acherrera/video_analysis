@@ -35,10 +35,17 @@ For this we are going to have a few objectives. Not all of them are critical.
 
 That's right, we're creating a dev diary for this project!
 
-## Day 1
+## Day 1 (1.5hours) - Initial POC
 
 Initial Ideation and proof of concept. For the first go, I'll be starting with just trying to find people. Mainly because
 I have a camera built into my computer that looks at a person all the time.
 
 We will, of course, be using my favorite source of learning: https://pythonprogramming.net/loading-images-python-opencv-tutorial/
 
+That didn't go quite as well as I would have liked - mainly getting the object detection seemed a little clunky. Instead I found the YOLO method 
+(You Only Look Once) which is an interesting project for a variety of reasons. But, it looks as thought it will work for what I want to do. First 
+image analysis worked exactly as expected.
+
+## Day 2 - YOLO
+
+Running the YOLO method on many images to see where the model fails
