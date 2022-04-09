@@ -128,4 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 ./demo/yolov3.weights
-src/yolo/yolov3.weights
+demo/object_detection/yolo/yolov3.weights
